@@ -91,7 +91,7 @@ Response Example
 Call the VerifyPayment class
 use Taghwo\Glade\BankTransfer\Core\VerifyPayment;
 
-Request example, it take the transaction reference as argument
+Request example, it takes the transaction reference as argument
 
 $verifyPayment = new VerifyPayment('txnRef');
 
