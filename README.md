@@ -101,7 +101,7 @@ print_r($response);
 ```
 # Available methods For Verifying Payment Status
 ```
-execute() this executes the initialization process
+execute() this executes the verification process
 Required:true
 ```
 
