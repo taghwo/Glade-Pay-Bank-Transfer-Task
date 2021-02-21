@@ -18,7 +18,7 @@ Successful request will return an stdClass Object
 
 # Installation
 ```sh
-composer require taghwo/glade-bank-transfer
+composer require taghwo/glade-bank-transfer-task
 ```
 
 ```sh

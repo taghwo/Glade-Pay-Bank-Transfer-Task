@@ -1,5 +1,5 @@
 {
-    "name": "taghwo/glade-bank-transfer-test",
+    "name": "taghwo/glade-bank-transfer-task",
     "type": "library",
     "description": "This exposes API to make bank transfer with Glade Pay Gateway",
     "keywords": [
