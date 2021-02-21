@@ -18,7 +18,7 @@ Successful request will return an stdClass Object
 
 # Installation
 ```sh
-composer require taghwo/nigerian-phone-number-validator-formatters
+composer require taghwo/glade-bank-transfer
 ```
 
 ```sh

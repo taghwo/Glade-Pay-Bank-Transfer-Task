@@ -4,7 +4,7 @@ $dotenv = \Dotenv\Dotenv::createImmutable(realpath("."));
 $dotenv->load();
 
 if (!function_exists('config')) {
-    function config($key)
+    function customConfig($key)
     {
         $configs = [
             'Glade_Test_Merchant_ID' => $_ENV['Glade_Test_Merchant_ID'],

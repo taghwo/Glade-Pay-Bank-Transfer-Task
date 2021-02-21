@@ -13,7 +13,7 @@ class FunctionTest extends TestCase
      */
     public function test_we_can_get_env_credentials_through_config_function()
     {
-        $this->assertEquals(config('Glade_Test_Base_Endpoint'), 'https://demo.api.gladepay.com/');
+        $this->assertEquals(customConfig('Glade_Test_Base_Endpoint'), 'https://demo.api.gladepay.com/');
     }
 
     /**

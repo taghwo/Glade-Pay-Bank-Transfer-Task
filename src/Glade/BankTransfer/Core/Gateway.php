@@ -28,8 +28,8 @@ abstract class Gateway implements BaseInterface
     private function setHeaders()
     {
         return array(
-            "key:".config('Glade_Test_Merchant_Key'),
-            "mid:".config('Glade_Test_Merchant_ID')
+            "key:".customConfig('Glade_Test_Merchant_Key'),
+            "mid:".customConfig('Glade_Test_Merchant_ID')
         );
     }
 
@@ -39,7 +39,7 @@ abstract class Gateway implements BaseInterface
      */
     private function setURL()
     {
-        return config('Glade_Test_Base_Endpoint').$this->method;
+        return customConfig('Glade_Test_Base_Endpoint').$this->method;
     }
 
     /**
