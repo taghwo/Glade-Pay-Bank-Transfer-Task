@@ -50,10 +50,9 @@ $response = $bankTransfer
             ->customUserData(['email' => "jacky@example.com","firstname"=>"John", "lastname"=>"Doe"])
             ->execute();
 print_r($response);
-
-There are few methods that can be chained together.
 ```
 # Available methods For Initializing Payment
+## There are few methods that can be chained together.
 ```
 amountPayable() this sets the amount to charge for the transaction
 Required:true
