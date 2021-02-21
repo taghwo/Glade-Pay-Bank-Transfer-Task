@@ -56,7 +56,7 @@ print_r($response);
 ```
 amountPayable() this sets the amount to charge for the transaction
 Required:true
-Throws InvalidData Exception if amount is supplied
+Throws InvalidData Exception if amount is not supplied
 ```
 
 ```
