@@ -1,5 +1,5 @@
-#Backedn Task for Glade Pay Bank Transfer API
-#This package does two things
+# Backend Task for Glade Pay Bank Transfer API
+# This package does two things
 ```sh
 1. Initialize bank tranfer flow, returns account details to make payment to.
 2. Verifies bank transfer status, returns status of payment.
@@ -7,91 +7,106 @@
 
 ```sh
 Status code returned include
-1: 401 for unauthicated response
-2: 400 for wrong method and wrong data format
+1: 401 for unauthenticated response
+2: 400 for wrong method or wrong data format supplied
 3: 500 for for invalid integration
 ```
 
 ```sh
-Succesful request will return an stdClass Object
+Successful request will return an stdClass Object
 ```
 
-#Installation
+# Installation
 ```sh
 composer require taghwo/nigerian-phone-number-validator-formatters
 ```
-#include package in your PHP file
+
 ```sh
- require_once "vendor/autoload.php"; 
+Create a .env file in the root on your project and set fill in details
+Glade_Test_Merchant_ID=GP****
+Glade_Test_Merchant_Key=123****
+Glade_Test_Base_Endpoint: https://demo.api.gladepay.com/
+```
+
+#include autoload in your project (PHP file)
+```sh
+ require_once "vendor/autoload.php";
+
+ Run composer dump-autoload
  ```
 
+ # Usage
+ # Initialize Bank Transfer Payment
 ```sh
-use Taghwo\PhoneNumber\PhoneNumberRequest;
+Call the InitPayment class
+use Taghwo\Glade\BankTransfer\Core\InitPayment;
+
+Make an instance of the class
+$bankTransfer = new InitPayment();
+
+Request example
+$response = $bankTransfer
+            ->amountPayable('1500')
+            ->customUserData(['email' => "jacky@example.com","firstname"=>"John", "lastname"=>"Doe"])
+            ->execute();
+print_r($response);
+
+There are few methods that can be chained together.
+```
+# Available methods For Initializing Payment
+```
+amountPayable() this sets the amount to charge for the transaction
+Required:true
+Throws InvalidData Exception if amount is supplied
 ```
 
-##Available methods
 ```
-setDigits() accepts single or range of digits(min_range, max_range). ('14') or ('11','14)
-```
-```
-validateWithRange() will validate if phone number supplied falls within range 
-```
-```
-validateStrict() throws exception if phone number supplied is === single number in setDigits()
-```
-```
-getCleanNumber() returns clean phone number
-```
-```
-formatToIntPhoneNumber() prefixes 234 on phonenumber if it does not have it
-```
-```
-getPrefix() fetches phonenumber prefix
-```
-```
-splitPhoneNumber() splits phone number into chunks based on criterai supplied, (null, 4)
-```
-```
-setPhoneNumber() Note only use when using the static call on use Taghwo\PhoneNumber\PhoneNumber;
+customUserData() takes an array of user data, this add more detail to the transaction. You can add first_name, last_name, email, IP address and fingerprint
+Required:false
 ```
 
-#Usage
+```
+country() country to use for this transaction. If not supplied it, will be set to "NG"
+Required:false
+```
 
-## example using the class instance
+```
+currency() currency to use for this transaction. If not supplied it, will be set to "NGN"
+Required:false
+```
+
+```
+execute() this executes the initialization process
+Required:true
+```
+
+```
+Response Example
+( [status] => 202 [txnRef] => GP83015561620210221D [auth_type] => device [accountNumber] => 9922554842 [accountName] => GladePay Demo [bankName] => Providus Bank [accountExpires] => 600 [message] => Make a transfer into the following account using your bank app or internet banking platfrom to complete the transaction )
+```
+
+
+ # Verify Bank Transfer Payment
 ```sh
-$phonenumber = new PhoneNumberRequest('/--dff/s07000000000');
-         
-          $phonenumber
-            ->setDigits('11,14')
-            ->validateWithRange() ✅
-            ->getCleanNumber()//07000000000;✅
-            ->formatToIntPhoneNumber()//2347000000000;✅
-            ->getPrefix()//070
-            ->splitPhoneNumber(null, 3);//[070,000,000,00];
+Call the VerifyPayment class
+use Taghwo\Glade\BankTransfer\Core\VerifyPayment;
+
+Request example, it take the transaction reference as argument
+
+$verifyPayment = new VerifyPayment('txnRef');
+
+$response = $verifyPayment
+              ->execute();
+
+print_r($response);
+```
+# Available methods For Verifying Payment Status
+```
+execute() this executes the initialization process
+Required:true
+```
 
 ```
-## using statically
-```sh
-use Taghwo\PhoneNumber\PhoneNumber;
-```
-```sh
-PhoneNumber::setDigits('14')
-            ->setPhoneNumber('/--dff/s07000000000')
-            ->validateStrict()//❌ must be 14 chars
-            ->getCleanNumber()//0700000000;✅
-            ->formatToIntPhoneNumber()//2347000000000;✅
-            ->getPrefix()//070
-            ->splitPhoneNumber(null, 3);//[070,000,000,00];
-
-```
-
-#Extra
-```
-Running quick checks on phone number, returns true and false
-```
-```
-use Taghwo\PhoneNumber\Rule\Check;
-
-$isValid = Check::verifyPhoneNumber('000007060499168');//❌false
-$isIntFormat = Check::verifyPhoneNumberIsIntFormat('007060499168');//❌False
+Response Example
+( [status] => 200 [txnStatus] => pending [txnRef] => GP83015561620210221D [message] => PENDING [chargedAmount] => 0 [currency] => NG [payment_method] => bank_transfer [fullname] => John Doe [email] => jacky@example.com [bank_message] => Awaiting Validation )
 ```
